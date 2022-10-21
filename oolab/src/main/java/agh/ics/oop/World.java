@@ -1,4 +1,7 @@
 package agh.ics.oop;
+
+import java.util.List;
+
 public class World {
     public static void run(Direction[] args){
         System.out.println("Start");
@@ -28,26 +31,17 @@ public class World {
         }
         else {
             System.out.println("Zbyt mało argumentów aby się poruszać");
-            Vector2d position1 = new Vector2d(1, 2);
-            System.out.println(position1);
-            Vector2d position2 = new Vector2d(-2, 1);
-            System.out.println(position2);
-            System.out.println(position1.add(position2));
+            List<MoveDirection> dir = OptionsParser.parse(array);
+//            for (MoveDirection o : dir) {
+//                System.out.println(o);
+//            }
 
-//        System.out.println(position1.equals(position1));
-//        Vector2d position3 = new Vector2d(-1, 5);
-//        System.out.println(position1.upperRight(position3));
-//        Vector2d position4 = new Vector2d(3, 4);
-//        System.out.println(position3.lowerLeft(position4));
-//        System.out.println(position3.opposite());
-//        System.out.println(position1.hashCode());
-//        System.out.println(position2.hashCode());
-//        System.out.println(position3.hashCode());
-//        System.out.println(position4.hashCode());
-//        System.out.println(MapDirection.EAST.next());
-//        System.out.println(MapDirection.EAST.toString());
-//        System.out.println(MapDirection.EAST.previous());
-//        System.out.println(MapDirection.EAST.toUnitVector());
+            Animal xy = new Animal();
+            System.out.println(xy);
+            for (MoveDirection o : dir) {
+                xy.move(o);
+            }
+            System.out.println(xy);
         }
         System.out.print("System zakończył działanie");
     }

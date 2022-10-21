@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="agh.ics.oop.AnimalTest" tests="6" skipped="0" failures="0" errors="0" timestamp="2022-10-21T17:18:26" hostname="DESKTOP-4ITNNLQ" time="0.039">
+  <properties/>
+  <testcase name="testToStringConstructor()" classname="agh.ics.oop.AnimalTest" time="0.029"/>
+  <testcase name="testIsAtBasic()" classname="agh.ics.oop.AnimalTest" time="0.002"/>
+  <testcase name="testToStringBasic()" classname="agh.ics.oop.AnimalTest" time="0.001"/>
+  <testcase name="testIsAtMove()" classname="agh.ics.oop.AnimalTest" time="0.002"/>
+  <testcase name="testMoveEgde()" classname="agh.ics.oop.AnimalTest" time="0.0"/>
+  <testcase name="testMoveParser()" classname="agh.ics.oop.AnimalTest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
