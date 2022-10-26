@@ -8,8 +8,8 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class AnimalTest { //test dependancies?
-    @BeforeAll
+class AnimalTest {
+    @BeforeAll //test dependancies?
     static void parserTest() {
         OptionsParserTest.sparseFull();
         OptionsParserTest.sparseShort();
@@ -20,7 +20,7 @@ class AnimalTest { //test dependancies?
         OptionsParserTest.sparseNone();
     }
     @Test
-    @Order(2)
+    @Order(1)
     void testToStringBasic() {
         assertEquals("(2,2,NORTH)", new Animal().toString());
         assertNotEquals("(2,1,NORTH)", new Animal().toString());
