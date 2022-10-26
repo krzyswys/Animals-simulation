@@ -1,14 +1,24 @@
 package agh.ics.oop;
 
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
-
+import agh.ics.oop.OptionsParserTest;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class AnimalTest { //test dependancies?
-
+class AnimalTest {
+    @BeforeAll //test dependancies?
+    static void parserTest() {
+        OptionsParserTest.sparseFull();
+        OptionsParserTest.sparseShort();
+        OptionsParserTest.sparseUpperFull();
+        OptionsParserTest.sparseUpperShort();
+        OptionsParserTest.sparseMixed();
+        OptionsParserTest.sparseNoneMix();
+        OptionsParserTest.sparseNone();
+    }
     @Test
     @Order(1)
     void testToStringBasic() {
@@ -60,59 +70,59 @@ class AnimalTest { //test dependancies?
     @Order(4)
     void testMoveParser() {
         Animal y = new Animal();
-//        String[] yMove = {"f", "f", "f", "r", "r", "b"};
-//        List<MoveDirection> ymove = OptionsParser.parse(yMove);
-//        for (MoveDirection go : ymove) {
-//            y.move(go);
-//        }
-        y.move(MoveDirection.FORWARD);
-        y.move(MoveDirection.FORWARD);
-        y.move(MoveDirection.FORWARD);
-        y.move(MoveDirection.RIGHT);
-        y.move(MoveDirection.RIGHT);
-        y.move(MoveDirection.BACKWARD);
+        String[] yMove = {"f", "f", "f", "r", "r", "b"};
+        List<MoveDirection> ymove = OptionsParser.parse(yMove);
+        for (MoveDirection go : ymove) {
+            y.move(go);
+        }
+//        y.move(MoveDirection.FORWARD);
+//        y.move(MoveDirection.FORWARD);
+//        y.move(MoveDirection.FORWARD);
+//        y.move(MoveDirection.RIGHT);
+//        y.move(MoveDirection.RIGHT);
+//        y.move(MoveDirection.BACKWARD);
         assertEquals("(2,4,SOUTH)", y.toString());
 
         Animal x = new Animal();
-//        String[] xMove = {"b", "l", "l", "f", "l", "l"};
-//        List<MoveDirection> xmove = OptionsParser.parse(xMove);
-//        for (MoveDirection go : xmove) {
-//            x.move(go);
-//        }
-        x.move(MoveDirection.BACKWARD);
-        x.move(MoveDirection.LEFT);
-        x.move(MoveDirection.LEFT);
-        x.move(MoveDirection.FORWARD);
-        x.move(MoveDirection.LEFT);
-        x.move(MoveDirection.LEFT);
+        String[] xMove = {"b", "l", "l", "f", "l", "l"};
+        List<MoveDirection> xmove = OptionsParser.parse(xMove);
+        for (MoveDirection go : xmove) {
+            x.move(go);
+        }
+//        x.move(MoveDirection.BACKWARD);
+//        x.move(MoveDirection.LEFT);
+//        x.move(MoveDirection.LEFT);
+//        x.move(MoveDirection.FORWARD);
+//        x.move(MoveDirection.LEFT);
+//        x.move(MoveDirection.LEFT);
         assertEquals("(2,0,NORTH)", x.toString());
 
         Animal z = new Animal();
-//        String[] zMove = {"r", "f", "f", "b", "l", "l"};
-//        List<MoveDirection> zmove = OptionsParser.parse(zMove);
-//        for (MoveDirection go : zmove) {
-//            z.move(go);
-//        }
-        z.move(MoveDirection.RIGHT);
-        z.move(MoveDirection.FORWARD);
-        z.move(MoveDirection.FORWARD);
-        z.move(MoveDirection.BACKWARD);
-        z.move(MoveDirection.LEFT);
-        z.move(MoveDirection.LEFT);
+        String[] zMove = {"r", "f", "f", "b", "l", "l"};
+        List<MoveDirection> zmove = OptionsParser.parse(zMove);
+        for (MoveDirection go : zmove) {
+            z.move(go);
+        }
+//        z.move(MoveDirection.RIGHT);
+//        z.move(MoveDirection.FORWARD);
+//        z.move(MoveDirection.FORWARD);
+//        z.move(MoveDirection.BACKWARD);
+//        z.move(MoveDirection.LEFT);
+//        z.move(MoveDirection.LEFT);
         assertNotEquals("(2,1,WEST)", z.toString());
 
         Animal u = new Animal();
-//        String[] uMove = {"r", "l", "l", "f", "r", "b"};
-//        List<MoveDirection> umove = OptionsParser.parse(uMove);
-//        for (MoveDirection go : umove) {
-//            u.move(go);
-//        }
-        u.move(MoveDirection.RIGHT);
-        u.move(MoveDirection.LEFT);
-        u.move(MoveDirection.LEFT);
-        u.move(MoveDirection.FORWARD);
-        u.move(MoveDirection.RIGHT);
-        u.move(MoveDirection.BACKWARD);
+        String[] uMove = {"r", "l", "l", "f", "r", "b"};
+        List<MoveDirection> umove = OptionsParser.parse(uMove);
+        for (MoveDirection go : umove) {
+            u.move(go);
+        }
+//        u.move(MoveDirection.RIGHT);
+//        u.move(MoveDirection.LEFT);
+//        u.move(MoveDirection.LEFT);
+//        u.move(MoveDirection.FORWARD);
+//        u.move(MoveDirection.RIGHT);
+//        u.move(MoveDirection.BACKWARD);
 
         assertNotEquals("(5,1,EAST)", u.toString());
     }
@@ -128,59 +138,59 @@ class AnimalTest { //test dependancies?
     @Order(6)
     void testIsAtMove() {
         Animal y = new Animal();
-//        String[] yMove = {"b", "b", "b", "r", "r", "f"};
-//        List<MoveDirection> ymove = OptionsParser.parse(yMove);
-//        for (MoveDirection go : ymove) {
-//            y.move(go);
-//        }
-        y.move(MoveDirection.BACKWARD);
-        y.move(MoveDirection.BACKWARD);
-        y.move(MoveDirection.BACKWARD);
-        y.move(MoveDirection.RIGHT);
-        y.move(MoveDirection.RIGHT);
-        y.move(MoveDirection.FORWARD);
+        String[] yMove = {"b", "b", "b", "r", "r", "f"};
+        List<MoveDirection> ymove = OptionsParser.parse(yMove);
+        for (MoveDirection go : ymove) {
+            y.move(go);
+        }
+//        y.move(MoveDirection.BACKWARD);
+//        y.move(MoveDirection.BACKWARD);
+//        y.move(MoveDirection.BACKWARD);
+//        y.move(MoveDirection.RIGHT);
+//        y.move(MoveDirection.RIGHT);
+//        y.move(MoveDirection.FORWARD);
         assertTrue(y.isAt(new Vector2d(2, 0)));
 
         Animal x = new Animal();
-//        String[] xMove = {"f", "f", "r", "b", "r", "l"};
-//        List<MoveDirection> xmove = OptionsParser.parse(xMove);
-//        for (MoveDirection go : xmove) {
-//            x.move(go);
-//        }
-        x.move(MoveDirection.FORWARD);
-        x.move(MoveDirection.FORWARD);
-        x.move(MoveDirection.RIGHT);
-        x.move(MoveDirection.BACKWARD);
-        x.move(MoveDirection.RIGHT);
-        x.move(MoveDirection.LEFT);
+        String[] xMove = {"f", "f", "r", "b", "r", "l"};
+        List<MoveDirection> xmove = OptionsParser.parse(xMove);
+        for (MoveDirection go : xmove) {
+            x.move(go);
+        }
+//        x.move(MoveDirection.FORWARD);
+//        x.move(MoveDirection.FORWARD);
+//        x.move(MoveDirection.RIGHT);
+//        x.move(MoveDirection.BACKWARD);
+//        x.move(MoveDirection.RIGHT);
+//        x.move(MoveDirection.LEFT);
         assertTrue(x.isAt(new Vector2d(1, 4)));
 
         Animal z = new Animal();
-//        String[] zMove = {"r", "f", "f", "b", "l", "l"};
-//        List<MoveDirection> zmove = OptionsParser.parse(zMove);
-//        for (MoveDirection go : zmove) {
-//            z.move(go);
-//        }
-        z.move(MoveDirection.RIGHT);
-        z.move(MoveDirection.FORWARD);
-        z.move(MoveDirection.FORWARD);
-        z.move(MoveDirection.BACKWARD);
-        z.move(MoveDirection.LEFT);
-        z.move(MoveDirection.LEFT);
+        String[] zMove = {"r", "f", "f", "b", "l", "l"};
+        List<MoveDirection> zmove = OptionsParser.parse(zMove);
+        for (MoveDirection go : zmove) {
+            z.move(go);
+        }
+//        z.move(MoveDirection.RIGHT);
+//        z.move(MoveDirection.FORWARD);
+//        z.move(MoveDirection.FORWARD);
+//        z.move(MoveDirection.BACKWARD);
+//        z.move(MoveDirection.LEFT);
+//        z.move(MoveDirection.LEFT);
         assertFalse(z.isAt(new Vector2d(1, 4)));
 
         Animal u = new Animal();
-//        String[] uMove = {"r", "r", "r", "l", "l", "l"};
-//        List<MoveDirection> umove = OptionsParser.parse(uMove);
-//        for (MoveDirection go : umove) {
-//            u.move(go);
-//        }
-        u.move(MoveDirection.RIGHT);
-        u.move(MoveDirection.RIGHT);
-        u.move(MoveDirection.RIGHT);
-        u.move(MoveDirection.LEFT);
-        u.move(MoveDirection.LEFT);
-        u.move(MoveDirection.LEFT);
+        String[] uMove = {"r", "r", "r", "l", "l", "l"};
+        List<MoveDirection> umove = OptionsParser.parse(uMove);
+        for (MoveDirection go : umove) {
+            u.move(go);
+        }
+//        u.move(MoveDirection.RIGHT);
+//        u.move(MoveDirection.RIGHT);
+//        u.move(MoveDirection.RIGHT);
+//        u.move(MoveDirection.LEFT);
+//        u.move(MoveDirection.LEFT);
+//        u.move(MoveDirection.LEFT);
         assertFalse(u.isAt(new Vector2d(-2, -2)));
     }
 
