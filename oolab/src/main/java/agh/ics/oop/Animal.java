@@ -1,27 +1,42 @@
 package agh.ics.oop;
+// jframe
 
 public class Animal {
 
-    public Animal() {
+    public Vector2d vector = new Vector2d(2, 2);
+
+    private IWorldMap map;
+    private MapDirection orientation = MapDirection.NORTH;
+
+    public Animal(IWorldMap map) {
+        this.map = map;
+        map.place(this);
     }
 
-    private Vector2d vector = new Vector2d(2, 2);
-    private MapDirection orientation= MapDirection.NORTH;
 
-    public Animal(Vector2d vector, MapDirection orientation) {
-        if (vector.x>=0 && vector.y>=0 && vector.x<=4 && vector.y<=4){ // defaultowo tworzy się na 2,2, north ale jakby chciało sie customowo to nie wejdzie poza mapę
-            this.vector = vector;
-            this.orientation = orientation;
+    public Animal(IWorldMap map, Vector2d initialPosition) {
+        if (map.canMoveTo(initialPosition)) {
+            this.vector = initialPosition;
+            this.map = map;
+            map.place(this);
         }
 
+    }
 
+    public String toStringWhole() {
+        String wordX = Integer.toString(vector.x);
+        String wordY = Integer.toString(vector.y);
+        return "(" + wordX + "," + wordY + "," + orientation.name() + ")";
     }
 
     @Override
     public String toString() {
-        String wordX = Integer.toString(vector.x);
-        String wordY = Integer.toString(vector.y);
-        return "(" + wordX + "," + wordY + "," + orientation.name() + ")";
+        return switch (orientation) {
+            case NORTH -> "N";
+            case EAST -> "E";
+            case SOUTH -> "S";
+            case WEST -> "W";
+        };
     }
 
     public boolean isAt(Vector2d position) {
@@ -35,17 +50,23 @@ public class Animal {
             this.orientation = this.orientation.previous();
         } else if (direction == MoveDirection.FORWARD) {
             Vector2d obj = this.orientation.toUnitVector();
-            int objx = obj.x;
-            int objy = obj.y;
-            if (this.vector.x + objx <= 4 && this.vector.y + objy <= 4 && this.vector.y + objy >= 0 && this.vector.x + objx >= 0) {
-                this.vector = new Vector2d(this.vector.x + objx, this.vector.y + objy);
+            if (obj != null) {
+                int objx = obj.x;
+                int objy = obj.y;
+                Vector2d goTo = new Vector2d(this.vector.x + objx, this.vector.y + objy);
+                if (map.canMoveTo(goTo)) {
+                    this.vector = goTo;
+                }
             }
         } else if (direction == MoveDirection.BACKWARD) {
             Vector2d obj = this.orientation.toUnitVector();
-            int objx = obj.x;
-            int objy = obj.y;
-            if (this.vector.x - objx <= 4 && this.vector.y - objy <= 4 && this.vector.y - objy >= 0 && this.vector.x - objx >= 0) {
-                this.vector = new Vector2d(this.vector.x - objx, this.vector.y - objy);
+            if (obj != null) {
+                int objx = obj.x;
+                int objy = obj.y;
+                Vector2d goTo = new Vector2d(this.vector.x - objx, this.vector.y - objy);
+                if (map.canMoveTo(goTo)) {
+                    this.vector = goTo;
+                }
             }
         }
 
