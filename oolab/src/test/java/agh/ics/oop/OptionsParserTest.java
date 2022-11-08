@@ -3,6 +3,7 @@ package agh.ics.oop;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 
+import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -16,8 +17,8 @@ class OptionsParserTest {
     }
      static void sparseFull() {
         String[] array = new String[]{"right", "left", "backward", "forward"};
-        List<MoveDirection> dir = List.of(MoveDirection.RIGHT, MoveDirection.LEFT, MoveDirection.BACKWARD, MoveDirection.FORWARD);
-        assertEquals(dir, OptionsParser.parse(array));
+        MoveDirection[] dir =  new MoveDirection[]{MoveDirection.RIGHT, MoveDirection.LEFT, MoveDirection.BACKWARD, MoveDirection.FORWARD};
+        assertEquals(Arrays.toString(dir), Arrays.toString(OptionsParser.parse(array)) );
     }
 
     @Test
@@ -27,8 +28,8 @@ class OptionsParserTest {
     }
     public static void sparseShort() {
         String[] array = new String[]{"r", "l", "b", "f"};
-        List<MoveDirection> dir = List.of(MoveDirection.RIGHT, MoveDirection.LEFT, MoveDirection.BACKWARD, MoveDirection.FORWARD);
-        assertEquals(dir, OptionsParser.parse(array));
+        MoveDirection[] dir = new MoveDirection[]{MoveDirection.RIGHT, MoveDirection.LEFT, MoveDirection.BACKWARD, MoveDirection.FORWARD};
+        assertEquals(Arrays.toString(dir), Arrays.toString(OptionsParser.parse(array)));
     }
 
     @Test
@@ -38,8 +39,8 @@ class OptionsParserTest {
     }
     static void sparseUpperFull() {
         String[] array = new String[]{"RIGHT", "LEFT", "BACKWARD", "FORWARD"};
-        List<MoveDirection> dir = List.of(MoveDirection.RIGHT, MoveDirection.LEFT, MoveDirection.BACKWARD, MoveDirection.FORWARD);
-        assertNotEquals(dir, OptionsParser.parse(array));
+        MoveDirection[] dir = new MoveDirection[]{MoveDirection.RIGHT, MoveDirection.LEFT, MoveDirection.BACKWARD, MoveDirection.FORWARD};
+        assertNotEquals(Arrays.toString(dir), Arrays.toString(OptionsParser.parse(array)));
     }
 
     @Test
@@ -49,8 +50,8 @@ class OptionsParserTest {
     }
     static void sparseUpperShort() {
         String[] array = new String[]{"R", "L", "B", "F"};
-        List<MoveDirection> dir = List.of(MoveDirection.RIGHT, MoveDirection.LEFT, MoveDirection.BACKWARD, MoveDirection.FORWARD);
-        assertNotEquals(dir, OptionsParser.parse(array));
+        MoveDirection[] dir = new MoveDirection[]{MoveDirection.RIGHT, MoveDirection.LEFT, MoveDirection.BACKWARD, MoveDirection.FORWARD};
+        assertNotEquals(Arrays.toString(dir), Arrays.toString(OptionsParser.parse(array)));
 
     }
 
@@ -61,13 +62,13 @@ class OptionsParserTest {
     }
     static void sparseMixed() {
         String[] array = new String[]{"right", "L", "backward", "string", "right", "f", "f", "asdasd", "null"};
-        List<MoveDirection> dir = List.of(
+        MoveDirection[] dir = new MoveDirection[]{
                 MoveDirection.RIGHT,
                 MoveDirection.BACKWARD,
                 MoveDirection.RIGHT,
                 MoveDirection.FORWARD,
-                MoveDirection.FORWARD);
-        assertEquals(dir, OptionsParser.parse(array));
+                MoveDirection.FORWARD};
+        assertEquals(Arrays.toString(dir), Arrays.toString(OptionsParser.parse(array)));
 
     }
 
@@ -78,8 +79,8 @@ class OptionsParserTest {
     }
     static void sparseNoneMix() {
         String[] array = new String[]{"rigsht", "L", "backwaards", "string", "rigfht", "af", "fs", "asdasd", "null"};
-        List<MoveDirection> dir = List.of();
-        assertEquals(dir, OptionsParser.parse(array));
+        MoveDirection[] dir = new MoveDirection[]{};
+        assertEquals(Arrays.toString(dir), Arrays.toString(OptionsParser.parse(array)));
 
     }
 
@@ -90,8 +91,8 @@ class OptionsParserTest {
     }
     static void sparseNone() {
         String[] array = new String[]{};
-        List<MoveDirection> dir = List.of();
-        assertEquals(dir, OptionsParser.parse(array));
+        MoveDirection[] dir = new MoveDirection[]{};
+        assertEquals(Arrays.toString(dir), Arrays.toString(OptionsParser.parse(array)));
 
     }
 
