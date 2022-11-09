@@ -20,6 +20,7 @@ public class RectangularMap implements IWorldMap {
         }
 
     }
+
     public Vector2d getRightEgde(){
         return rightEgde;
     }
