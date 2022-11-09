@@ -36,7 +36,7 @@ public class SimulationEngine implements IEngine {
     }
 
     @Override
-    public void run() {
+    public void runFrame() {
 
 
         Vector2d size = map.getRightEgde();
@@ -101,7 +101,6 @@ public class SimulationEngine implements IEngine {
         for (int i = 0; i < numOfAnimals; i++) {
             Animal man = new Animal(map, positions[i]);
 
-            System.out.println(positions[i].toString());
             animals.add(man);
             button[size.y - positions[i].y + 1][positions[i].x + 1].setBackground(colors[i]);
             button[size.y - positions[i].y + 1][positions[i].x + 1].setText(man.toString());
@@ -111,7 +110,6 @@ public class SimulationEngine implements IEngine {
         frame.pack();
 
 
-        System.out.println(map.toString());
 
 
         ActionListener a = e -> {
@@ -128,7 +126,6 @@ public class SimulationEngine implements IEngine {
             button[size.y - state.y + 1][state.x + 1].setText("");
             button[size.y - state2.y + 1][state2.x + 1].setBackground(colors[jj]);
             button[size.y - state2.y + 1][state2.x + 1].setText(man.toString());
-            System.out.println(map.toString());
 
 
             jj++;
@@ -143,8 +140,28 @@ public class SimulationEngine implements IEngine {
         timer.start();
 
 
-        System.out.println(map.toString());
 
     }
+    public void run() {
+        int numOfAnimals = positions.length;
+        for (int i = 0; i < numOfAnimals; i++) {
+            Animal man = new Animal(map, positions[i]);
+            animals.add(man);
+
+        }
+        System.out.println(map.toString());
+
+        int j = 0;
+        for (MoveDirection o : directions) {
+            if (j == numOfAnimals) {
+                j = 0;
+            }
+            Animal man = animals.get(j);
+            man.move(o);
+            System.out.println(map.toString());
+            j++;
+        }
+    }
+
 }
 

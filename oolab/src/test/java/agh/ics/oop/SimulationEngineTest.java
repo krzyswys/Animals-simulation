@@ -58,7 +58,7 @@ class SimulationEngineTest {
         IEngine engine = new SimulationEngine(dir, map, sPos);
         engine.run();
 
-        String output = " y\\x  0 1 2 3 4 " + System.lineSeparator() +
+        String output = " y\\x  0 1 2 3 4" + System.lineSeparator() +
                 "  8: -----------" + System.lineSeparator() +
                 "  7: | | | | | |" + System.lineSeparator() +
                 "  6: | | | | | |" + System.lineSeparator() +
