@@ -15,7 +15,7 @@ public class SimulationEngine implements IEngine {
     public MoveDirection[] directions;
     public IWorldMap map;
     public Vector2d[] positions;
-    private LinkedList<Animal> animals = new LinkedList<>();
+    private final LinkedList<Animal> animals = new LinkedList<>();
 
     private int jj = 0;
     private int x = 0;
@@ -47,70 +47,64 @@ public class SimulationEngine implements IEngine {
         okno.setMaximumSize(new Dimension(1080, 720));
         frame.setVisible(true);
 
-        int sizeOfRec=40;
+        int sizeOfRec = 40;
         Border emptyBorder = BorderFactory.createEmptyBorder();
 
 
-            for (int i = 0; i <= size.y+1; i++) {
+        for (int i = 0; i <= size.y + 1; i++) {
 
-                    for (int j = 0; j <= size.x + 1; j++) {
+            for (int j = 0; j <= size.x + 1; j++) {
 
+                if (j == 0) {
+                    button[i][j] = new JButton(String.valueOf(size.y + 1 - (i)));
+                    button[i][j].setPreferredSize(new Dimension(sizeOfRec, sizeOfRec));
+                    button[i][j].setBackground(Color.gray);
+                    button[i][j].setForeground(Color.white);
 
-
-
-                            if (j == 0) {
-                        button[i][j] = new JButton(String.valueOf(size.y + 1 - (i)));
-                        button[i][j].setPreferredSize(new Dimension(sizeOfRec, sizeOfRec));
-                        button[i][j].setBackground(Color.gray);
-                        button[i][j].setForeground(Color.white);
-
-                    } else if (i == 0) {
-                        button[i][j] = new JButton(String.valueOf(j - 1));
-                        button[i][j].setPreferredSize(new Dimension(sizeOfRec, sizeOfRec));
-                        button[i][j].setBackground(Color.gray);
-                        button[i][j].setForeground(Color.white);
+                } else if (i == 0) {
+                    button[i][j] = new JButton(String.valueOf(j - 1));
+                    button[i][j].setPreferredSize(new Dimension(sizeOfRec, sizeOfRec));
+                    button[i][j].setBackground(Color.gray);
+                    button[i][j].setForeground(Color.white);
 
 
-                    } else {
-                        button[i][j] = new JButton(String.valueOf(""));
-                        button[i][j].setPreferredSize(new Dimension(sizeOfRec, sizeOfRec));
-                        button[i][j].setBackground(Color.white);
+                } else {
+                    button[i][j] = new JButton("");
+                    button[i][j].setPreferredSize(new Dimension(sizeOfRec, sizeOfRec));
+                    button[i][j].setBackground(Color.white);
 
 
-                    }
-                    if (i == 0 && j == 0) {
-                        button[i][j] = new JButton("y\\x");
-                        button[i][j].setPreferredSize(new Dimension(sizeOfRec, sizeOfRec));
-                        button[i][j].setBackground(Color.gray);
-                        button[i][j].setForeground(Color.white);
-
-                    }
-                    button[i][j].setBorder(emptyBorder);
-                    button[i][j].setRolloverEnabled(false);
-                    okno.add(button[i][j]);
                 }
+                if (i == 0 && j == 0) {
+                    button[i][j] = new JButton("y\\x");
+                    button[i][j].setPreferredSize(new Dimension(sizeOfRec, sizeOfRec));
+                    button[i][j].setBackground(Color.gray);
+                    button[i][j].setForeground(Color.white);
+
+                }
+                button[i][j].setBorder(emptyBorder);
+                button[i][j].setRolloverEnabled(false);
+                okno.add(button[i][j]);
             }
-
-
-
+        }
 
 
         int numOfAnimals = positions.length;
-        for(int c=0; c<positions.length; c++) {
+        for (int c = 0; c < positions.length; c++) {
 
             int a = (int) Math.floor(Math.random() * (256 - 110 + 1) + 110);
-            int b = (int) Math.floor(Math.random() * (256 - 0 + 1) + 0);
-            int cc = (int) Math.floor(Math.random() * (256 - 0 + 1) + 0);
+            int b = (int) Math.floor(Math.random() * (256 + 1) + 0);
+            int cc = (int) Math.floor(Math.random() * (256 + 1) + 0);
             Color col = new Color(a, b, cc);
-            colors[c]=col;
+            colors[c] = col;
         }
         for (int i = 0; i < numOfAnimals; i++) {
             Animal man = new Animal(map, positions[i]);
 
             System.out.println(positions[i].toString());
             animals.add(man);
-            button[size.y - positions[i].y+1][positions[i].x+1].setBackground(colors[i]);
-            button[size.y - positions[i].y+1][positions[i].x+1].setText(man.toString());
+            button[size.y - positions[i].y + 1][positions[i].x + 1].setBackground(colors[i]);
+            button[size.y - positions[i].y + 1][positions[i].x + 1].setText(man.toString());
         }
 
         frame.setContentPane(okno);
@@ -130,10 +124,10 @@ public class SimulationEngine implements IEngine {
             man.move(o);
             Vector2d state2 = man.getPosition();
 
-            button[size.y - state.y+1][state.x+1].setBackground(Color.white);
-            button[size.y - state.y+1][state.x+1].setText("");
-            button[size.y - state2.y+1][state2.x+1].setBackground(colors[jj]);
-            button[size.y - state2.y+1][state2.x+1].setText(man.toString());
+            button[size.y - state.y + 1][state.x + 1].setBackground(Color.white);
+            button[size.y - state.y + 1][state.x + 1].setText("");
+            button[size.y - state2.y + 1][state2.x + 1].setBackground(colors[jj]);
+            button[size.y - state2.y + 1][state2.x + 1].setText(man.toString());
             System.out.println(map.toString());
 
 

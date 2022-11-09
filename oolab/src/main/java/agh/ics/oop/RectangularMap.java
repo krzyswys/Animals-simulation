@@ -12,19 +12,20 @@ public class RectangularMap implements IWorldMap {
 
     public RectangularMap(int width, int height) {
         if (width > 0 && height > 0) {
-            rightEgde = new Vector2d( width, height);
+            rightEgde = new Vector2d(width, height);
             leftEdge = new Vector2d(0, 0);
-        } else if (width<0 || height<0) {
-            rightEgde = new Vector2d( abs(width),abs(height));
+        } else if (width < 0 || height < 0) {
+            rightEgde = new Vector2d(abs(width), abs(height));
             leftEdge = new Vector2d(0, 0);
         }
 
     }
 
-    public Vector2d getRightEgde(){
+    public Vector2d getRightEgde() {
         return rightEgde;
     }
-    public Vector2d getLeftEdge(){
+
+    public Vector2d getLeftEdge() {
         return leftEdge;
     }
 
@@ -47,10 +48,7 @@ public class RectangularMap implements IWorldMap {
 
         if (this.isOccupied(position)) {
             return false;
-        }else if (position.follows(leftEdge) && position.precedes(rightEgde)) {
-            return true;
-        }
-        return false;
+        } else return position.follows(leftEdge) && position.precedes(rightEgde);
     }
 
     @Override

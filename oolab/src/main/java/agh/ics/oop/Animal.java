@@ -1,5 +1,4 @@
 package agh.ics.oop;
-// jframe
 
 public class Animal {
 
@@ -22,7 +21,8 @@ public class Animal {
         }
 
     }
-    public Vector2d getPosition(){
+
+    public Vector2d getPosition() {
         return vector;
     }
 
