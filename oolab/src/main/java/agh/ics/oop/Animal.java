@@ -22,6 +22,9 @@ public class Animal {
         }
 
     }
+    public Vector2d getPosition(){
+        return vector;
+    }
 
     public String toStringWhole() {
         String wordX = Integer.toString(vector.x);
