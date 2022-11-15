@@ -8,7 +8,6 @@ package agh.ics.oop;
  *
  */
 public interface IEngine {
-    void runFrame();
 
     /**
      * Move the animal on the map according to the provided move directions. Every
