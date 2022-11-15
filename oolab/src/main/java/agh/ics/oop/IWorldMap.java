@@ -1,5 +1,6 @@
 package agh.ics.oop;
 
+
 /**
  * The interface responsible for interacting with the map of the world.
  * Assumes that Vector2d and MoveDirection classes are defined.
@@ -26,6 +27,10 @@ public interface IWorldMap {
      */
     boolean place(Animal animal);
 
+    void moveAnimal(Animal animal, MoveDirection o);
+
+    Grass[] getRemovedGrass();
+
     /**
      * Return true if given position on the map is occupied. Should not be
      * confused with canMove since there might be empty positions where the animal
@@ -47,4 +52,9 @@ public interface IWorldMap {
     Object objectAt(Vector2d position);
 
     Vector2d getRightEgde();
+    Vector2d getLeftEdge();
+
+    Grass[] getGrass();
+
+    Vector2d[] edges();
 }

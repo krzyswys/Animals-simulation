@@ -4,10 +4,9 @@ import java.util.LinkedList;
 
 import static java.lang.Math.abs;
 
-public class RectangularMap implements IWorldMap {
+public class RectangularMap extends AbstractWorldMap {
     private Vector2d rightEgde;
     private Vector2d leftEdge;
-    private MapVisualizer visualizer = new MapVisualizer(this);
     private LinkedList<Animal> animals = new LinkedList<>();
 
     public RectangularMap(int width, int height) {
@@ -18,29 +17,21 @@ public class RectangularMap implements IWorldMap {
             rightEgde = new Vector2d(abs(width), abs(height));
             leftEdge = new Vector2d(0, 0);
         }
-
     }
-
+    @Override
     public Vector2d getRightEgde() {
         return rightEgde;
     }
 
+    @Override
     public Vector2d getLeftEdge() {
         return leftEdge;
     }
 
-    public String toString() {
-        return visualizer.draw(leftEdge, rightEgde);
-    }
-
     @Override
-    public boolean isOccupied(Vector2d position) {
-        for (Animal animal : animals) {
-            if (animal.vector.equals(position)) {
-                return true;
-            }
-        }
-        return false;
+    public void moveAnimal(Animal animal, MoveDirection o) {
+        animal.move(o);
+//        animals.add(animal);
     }
 
     @Override
@@ -52,25 +43,8 @@ public class RectangularMap implements IWorldMap {
     }
 
     @Override
-    public boolean place(Animal animal) {
-
-        if (this.isOccupied(animal.vector) || animal.vector.precedes(leftEdge) || animal.vector.follows(rightEgde)) {
-            return false;
-        }
-        animals.add(animal);
-        return true;
-    }
-
-    @Override
-    public Object objectAt(Vector2d position) {
-
-        for (Animal animal : animals) {
-            if (animal.vector.equals(position)) {
-                return animal;
-            }
-        }
-        return null;
-
+    public Vector2d[] edges() {
+        return new Vector2d[0];
     }
 
 }
