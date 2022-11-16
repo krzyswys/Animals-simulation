@@ -27,9 +27,8 @@ public interface IWorldMap {
      */
     boolean place(Animal animal);
 
-    void moveAnimal(Animal animal, MoveDirection o);
+    boolean moveAnimal(Animal animal, MoveDirection o);
 
-    Grass[] getRemovedGrass();
 
     /**
      * Return true if given position on the map is occupied. Should not be
@@ -49,12 +48,13 @@ public interface IWorldMap {
      *            The position of the object.
      * @return Object or null if the position is not occupied.
      */
+
     Object objectAt(Vector2d position);
 
+
+    Grass[] getRemovedGrass();
+    IMapElement[] getGrass();
     Vector2d getRightEgde();
     Vector2d getLeftEdge();
-
-    Grass[] getGrass();
-
     Vector2d[] edges();
 }

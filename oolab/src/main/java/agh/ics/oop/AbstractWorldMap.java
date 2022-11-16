@@ -4,13 +4,10 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
-import static java.lang.Math.abs;
-
 public abstract class AbstractWorldMap implements IWorldMap {
     public IWorldMap map;
-    private LinkedList<Animal> animals = new LinkedList<>();
-    public List<Grass> grasses = new LinkedList<>();
-    public List<Grass> removedGrass = new LinkedList<>();
+    public List<IMapElement> elements = new LinkedList<>();
+    public List<IMapElement> removedGrass = new LinkedList<>();
     public int noFiled;
     private MapVisualizer visualizer = new MapVisualizer(this);
 
@@ -38,15 +35,14 @@ public abstract class AbstractWorldMap implements IWorldMap {
             do {
                 position = new Vector2d(random.nextInt(bound(0)), random.nextInt(bound(0)));
             } while (isOccupied(position));
-            grasses.add(new Grass(position));
+            elements.add(new Grass(position));
         }
     }
     public void removeobjectAt(Vector2d position) {
-
-        for (Grass grass : grasses) {
+        for (IMapElement grass : elements) {
             if (grass.getPosition().equals(position)) {
                 removedGrass.add(grass);
-                grasses.remove(grass);
+                elements.remove(grass);
                 addGrass(1);
                 break;
             }
@@ -60,41 +56,22 @@ public abstract class AbstractWorldMap implements IWorldMap {
     }
     public Vector2d RightcheckEdges() {
         Vector2d gp = new Vector2d(0, 0);
-        for (Grass g : grasses) {
+        for (IMapElement g : elements) {
             Vector2d position = g.getPosition();
             if (position.upperRight(gp).follows(position)) {
                 gp = position.upperRight(gp);
             }
-        }
-        Vector2d an = new Vector2d(0, 0);
-        for (Animal animal : animals) {
+        }return gp;
 
-            Vector2d position = animal.getPosition();
-            if (position.upperRight(an).follows(position)) {
-                an = position.upperRight(an);
-            }
-        }
-
-
-        return an.upperRight(gp);
     }
     public Vector2d LeftcheckEdges() {
         Vector2d gp = new Vector2d(0, 0);
-        for (Grass g : grasses) {
+        for (IMapElement g : elements) {
             Vector2d position = g.getPosition();
             if (position.lowerLeft(gp).precedes((position))) {
                 gp = position.lowerLeft(gp);
             }
-        }
-        Vector2d an = new Vector2d(0, 0);
-        for (Animal animal : animals) {
-
-            Vector2d position = animal.getPosition();
-            if (position.lowerLeft(an).precedes(position)) {
-                an = position.lowerLeft(an);
-            }
-        }
-        return an.lowerLeft(gp);
+        }return gp;
     }
 
     @Override
@@ -103,8 +80,14 @@ public abstract class AbstractWorldMap implements IWorldMap {
     }
 
     @Override
-    public Grass[] getGrass() {
-        return grasses.toArray(new Grass[0]);
+    public IMapElement[] getGrass() {
+        List<IMapElement> grass= new LinkedList<>();
+        for (IMapElement g: elements) {
+            if (g.getType().equals("G")) {
+                grass.add(g);
+            }
+        }
+        return grass.toArray(new IMapElement[0]);
     }
     @Override
     public Grass[] getRemovedGrass() {
@@ -113,14 +96,8 @@ public abstract class AbstractWorldMap implements IWorldMap {
 
     @Override
     public boolean isOccupied(Vector2d position) {
-        for (Grass g : grasses) {
+        for (IMapElement g: elements) {
             if (g.getPosition().equals(position)) {
-                return true;
-            }
-        }
-
-        for (Animal animal : animals) {
-            if (animal.vector.equals(position)) {
                 return true;
             }
         }
@@ -134,19 +111,14 @@ public abstract class AbstractWorldMap implements IWorldMap {
         if ((this.isOccupied(animal.vector) && (objectAt(animal.vector) instanceof Animal)) || animal.vector.precedes(getLeftEdge()) || animal.vector.follows(getRightEgde())) {
             return false;
         }
-        animals.add(animal);
+        elements.add(animal);
         return true;
     }
 
     @Override
     public Object objectAt(Vector2d position) {
-
-        for (Grass grass : grasses) {
-            if (grass.getPosition().equals(position))
-                return grass;
-        }
-        for (Animal animal : animals) {
-            if (animal.vector.equals(position)) {
+        for (IMapElement animal : elements) {
+            if (animal.getPosition().equals(position)) {
                 return animal;
             }
         }
