@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="agh.ics.oop.GrassFieldTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2022-11-16T11:53:24" hostname="DESKTOP-4ITNNLQ" time="0.032">
+  <properties/>
+  <testcase name="getRightEgde()" classname="agh.ics.oop.GrassFieldTest" time="0.025"/>
+  <testcase name="getLeftEdge()" classname="agh.ics.oop.GrassFieldTest" time="0.003"/>
+  <testcase name="getGrass()" classname="agh.ics.oop.GrassFieldTest" time="0.003"/>
+  <system-out><![CDATA[ y\x  0 1 2 3 4 5 6 7
+  8: -----------------
+  7: | |*| | | | | | |
+  6: | | | | | | | | |
+  5: | | | | | | | | |
+  4: | | | | | | | | |
+  3: | | |*| | | | | |
+  2: | | | | | |*| |*|
+  1: | | | | | | | | |
+  0: | |*| | | | | | |
+ -1: -----------------
+
+ y\x  0 1 2 3 4 5 6 7
+  8: -----------------
+  7: | | | |*| | | | |
+  6: | | | | | | | |*|
+  5: | |*| | | | | | |
+  4: | | | | | | | | |
+  3: | |*| | | | | | |
+  2: | | | | |*| | | |
+  1: | | | | | | | | |
+  0: | | | | | | | | |
+ -1: -----------------
+
+ y\x  0 1 2 3 4 5 6
+  8: ---------------
+  7: | |*| | | | | |
+  6: | | | | | | | |
+  5: | |*| |*| | | |
+  4: | | | | | | | |
+  3: | | | | | | | |
+  2: | | | | | | |*|
+  1: | | |*| | | | |
+  0: | | | | | | | |
+ -1: ---------------
+
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
