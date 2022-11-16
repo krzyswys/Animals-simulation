@@ -18,6 +18,7 @@ import static java.lang.Math.abs;
 public class SimulationEngineFrame implements IEngine {
 
     Timer timer;
+    boolean hasmoved = true;
     public MoveDirection[] directions;
     public IWorldMap map;
     public Vector2d[] positions;
@@ -26,10 +27,10 @@ public class SimulationEngineFrame implements IEngine {
     private int jj = 0;
     private int x = 0;
     static JButton[][] button;
-    static JPanel[][] kratka;
-    public Grass[] grass;
+    public IMapElement[] grass;
     public Grass[] removedGrass;
-    private Color[] colors;
+    private ImageIcon[] colors;
+    public boolean wasThisGrass[][];
     JFrame frame = new JFrame("");
 
     public SimulationEngineFrame(MoveDirection[] directions, IWorldMap mapa, Vector2d[] pos) {
@@ -37,16 +38,12 @@ public class SimulationEngineFrame implements IEngine {
         this.map = mapa;
         this.positions = pos;
 
-        colors = new Color[positions.length];
+        colors = new ImageIcon[positions.length];
         for (int c = 0; c < positions.length; c++) {
-
-            int aa = (int) Math.floor(Math.random() * (255 - 110 + 1) + 110);
-            int b = (int) Math.floor(Math.random() * (255 + 1) + 0);
-            int cc = (int) Math.floor(Math.random() * (255 + 1) + 0);
-            Color col = new Color(aa, b, cc);
-            colors[c] = col;
+            colors[c] = Icons.RANDOM.getRandomIcon();
         }
-
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setVisible(true);
     }
 
     public IWorldMap getMap() {
@@ -55,7 +52,8 @@ public class SimulationEngineFrame implements IEngine {
 
     public JPanel buildMap(boolean refresh) {
 
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+
         grass = map.getGrass();
         removedGrass = map.getRemovedGrass();
 
@@ -71,11 +69,11 @@ public class SimulationEngineFrame implements IEngine {
 
         JPanel okno = new JPanel(new GridLayout(size.y + 3, size.x + 3, 0, 0));
         button = new JButton[size.y + 4][size.x + 4];
+        wasThisGrass = new boolean[size.y+4][size.x+4];
 
-         kratka = new JPanel[size.y + 4][size.x + 4];
 
         okno.setMaximumSize(new Dimension(1080, 720));
-        frame.setVisible(true);
+
         for (int i = 0; i <= size.y + 2; i++) {
 
             for (int j = 0; j <= size.x + 2; j++) {
@@ -84,17 +82,13 @@ public class SimulationEngineFrame implements IEngine {
                     button[i][j] = new JButton(String.valueOf(size.y + 1 - (i)+ left.y));
                     button[i][j].setPreferredSize(new Dimension(sizeOfRec, sizeOfRec));
                     button[i][j].setIcon(Icons.BORDER.getIcon());
-                    button[i][j].setVerticalTextPosition(SwingConstants.CENTER);
-                    button[i][j].setHorizontalTextPosition(SwingConstants.CENTER);
-                    button[i][j].setForeground(Color.white);
+
 
                 } else if (i == 0) {
                     button[i][j] = new JButton(String.valueOf(j - 2 + left.x));
                     button[i][j].setPreferredSize(new Dimension(sizeOfRec, sizeOfRec));
                     button[i][j].setIcon(Icons.BORDER.getIcon());
-                    button[i][j].setVerticalTextPosition(SwingConstants.CENTER);
-                    button[i][j].setHorizontalTextPosition(SwingConstants.CENTER);
-                    button[i][j].setForeground(Color.white);
+
 
 
                 } else {
@@ -108,30 +102,34 @@ public class SimulationEngineFrame implements IEngine {
                     button[i][j] = new JButton("y\\x");
                     button[i][j].setPreferredSize(new Dimension(sizeOfRec, sizeOfRec));
                     button[i][j].setIcon(Icons.BORDER.getIcon());
-                    button[i][j].setVerticalTextPosition(SwingConstants.CENTER);
-                    button[i][j].setHorizontalTextPosition(SwingConstants.CENTER);
-                    button[i][j].setForeground(Color.white);
+
 
                 }
                 button[i][j].setBorder(emptyBorder);
                 button[i][j].setRolloverEnabled(false);
+                button[i][j].setVerticalTextPosition(SwingConstants.CENTER);
+                button[i][j].setHorizontalTextPosition(SwingConstants.CENTER);
+                button[i][j].setForeground(Color.white);
 
+                wasThisGrass[i][j]=false;
                 okno.add(button[i][j]);
             }
         }
         if (refresh){
             for (Grass d : removedGrass) {
                 Vector2d positiond = d.getPosition();
+                wasThisGrass[size.y - positiond.y + 1 + left.y][positiond.x + 2- left.x]=true;
                 button[size.y - positiond.y + 1 + left.y][positiond.x + 2- left.x].setIcon(Icons.DIRT.getIcon());
             }
             for (int i = 0; i < grass.length; i++) {
+                wasThisGrass[size.y - grass[i].getPosition().y + 1 + left.y][grass[i].getPosition().x + 2- left.x]=true;
                 button[size.y - grass[i].getPosition().y + 1 + left.y][grass[i].getPosition().x + 2- left.x].setIcon(Icons.GRASS.getIcon());
             }
             int iterato = 0;
             for (Animal d : animals) {
                 Vector2d positiond = d.getPosition();
                 button[size.y - positiond.y + 1 + left.y][positiond.x + 2- left.x].setIcon(null);
-                button[size.y - positiond.y + 1 + left.y][positiond.x + 2- left.x].setBackground(colors[iterato]);
+                button[size.y - positiond.y + 1 + left.y][positiond.x + 2- left.x].setIcon(colors[iterato]);
                 button[size.y - positiond.y + 1 + left.y][positiond.x + 2- left.x].setText(d.toString());
                 iterato++;
             }
@@ -142,7 +140,7 @@ public class SimulationEngineFrame implements IEngine {
                 Animal man = new Animal(map, positions[i]);
 
                 animals.add(man);
-                button[size.y - positions[i].y + 1+ left.y][positions[i].x + 2- left.x].setBackground(colors[i]);
+                button[size.y - positions[i].y + 1+ left.y][positions[i].x + 2- left.x].setIcon(colors[i]);
                 button[size.y - positions[i].y + 1+ left.y][positions[i].x + 2- left.x].setText(man.toString());
             }
         }
@@ -156,9 +154,12 @@ public class SimulationEngineFrame implements IEngine {
         AtomicReference<JPanel> okno = new AtomicReference<>(buildMap(false));
 
         ActionListener a = e -> {
+            if(hasmoved){
+                okno.set(buildMap(true));
 
-            okno.set(buildMap(true));
-            okno.get().setVisible(true);
+                hasmoved = false;
+            }
+
             Vector2d[] p = map.edges();
             Vector2d left = p[1];
             Vector2d right = p[0];
@@ -176,20 +177,24 @@ public class SimulationEngineFrame implements IEngine {
 
             Animal man = animals.get(jj);
             Vector2d state = man.getPosition();
-            map.moveAnimal(man, o);
+            hasmoved=map.moveAnimal(man, o);
 
             Vector2d state2 = man.getPosition();
-//            okno.set(buildMap(true));
-//            okno.get().setVisible(true);
-            button[size.y - state.y + 1+ left.y][state.x + 2- left.x].setIcon(Icons.COBBLE.getIcon());
+
+         if (wasThisGrass[size.y - state.y + 1+ left.y][state.x + 2- left.x]==true){
+             wasThisGrass[size.y - state.y + 1+ left.y][state.x + 2- left.x]=false;
+             button[size.y - state.y + 1+ left.y][state.x + 2- left.x].setIcon(Icons.DIRT.getIcon());
+         }
+         else {
+             button[size.y - state.y + 1+ left.y][state.x + 2- left.x].setIcon(Icons.COBBLE.getIcon());
+         }
             button[size.y - state.y + 1+ left.y][state.x + 2- left.x].setText("");
             button[size.y - state2.y + 1+ left.y][state2.x + 2- left.x].setIcon(null);
-            button[size.y - state2.y + 1+ left.y][state2.x + 2- left.x].setBackground(colors[jj]);
+            button[size.y - state2.y + 1+ left.y][state2.x + 2- left.x].setIcon(colors[jj]);
             button[size.y - state2.y + 1+ left.y][state2.x + 2- left.x].setText(man.toString());
-
+            okno.get().setVisible(true);
             jj++;
             x++;
-
             if (x == directions.length - 1) {
                 timer.stop();
 //                System.exit(0);

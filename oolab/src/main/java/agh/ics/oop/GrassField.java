@@ -28,8 +28,11 @@ public class GrassField extends AbstractWorldMap {
         return checkEdges()[1];
     }
     @Override
-    public void moveAnimal(Animal animal, MoveDirection o) {
+    public boolean moveAnimal(Animal animal, MoveDirection o) {
         animal.move(o);
+        if(o.equals(MoveDirection.BACKWARD) || o.equals(MoveDirection.FORWARD)){
+            return true;
+        }return false;
     }
 
     @Override
@@ -48,4 +51,5 @@ public class GrassField extends AbstractWorldMap {
         return true;
 
     }
+
 }

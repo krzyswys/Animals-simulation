@@ -7,7 +7,6 @@ import static java.lang.Math.abs;
 public class RectangularMap extends AbstractWorldMap {
     private Vector2d rightEgde;
     private Vector2d leftEdge;
-    private LinkedList<Animal> animals = new LinkedList<>();
 
     public RectangularMap(int width, int height) {
         if (width > 0 && height > 0) {
@@ -29,9 +28,11 @@ public class RectangularMap extends AbstractWorldMap {
     }
 
     @Override
-    public void moveAnimal(Animal animal, MoveDirection o) {
+    public boolean moveAnimal(Animal animal, MoveDirection o) {
         animal.move(o);
-//        animals.add(animal);
+        if(o.equals(MoveDirection.BACKWARD) || o.equals(MoveDirection.FORWARD)){
+            return true;
+        }return false;
     }
 
     @Override
@@ -46,5 +47,6 @@ public class RectangularMap extends AbstractWorldMap {
     public Vector2d[] edges() {
         return new Vector2d[0];
     }
+
 
 }

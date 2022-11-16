@@ -1,6 +1,6 @@
 package agh.ics.oop;
 
-public class Animal {
+public class Animal extends AbstractMapElement {
 
     public Vector2d vector = new Vector2d(2, 2);
 
@@ -24,6 +24,11 @@ public class Animal {
 
     public Vector2d getPosition() {
         return vector;
+    }
+
+    @Override
+    public String getType() {
+        return "A";
     }
 
     public String toStringWhole() {
