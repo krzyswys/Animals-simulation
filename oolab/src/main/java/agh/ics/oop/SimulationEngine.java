@@ -7,12 +7,12 @@ public class SimulationEngine implements IEngine {
 
 
     public MoveDirection[] directions;
-    public IWorldMap map;
+    public AbstractWorldMap map;
     public Vector2d[] positions;
     private final LinkedList<Animal> animals = new LinkedList<>();
 
 
-    public SimulationEngine(MoveDirection[] directions, IWorldMap mapa, Vector2d[] pos) {
+    public SimulationEngine(MoveDirection[] directions, AbstractWorldMap mapa, Vector2d[] pos) {
         this.directions = directions;
         this.map = mapa;
         this.positions = pos;
