@@ -39,7 +39,7 @@ public class GrassField extends AbstractWorldMap {
     public boolean canMoveTo(Vector2d position) {
 
         if (this.isOccupied(position) ) {
-            if ((objectAt(position) instanceof Animal)) {
+            if ((objectAt(position)).getType().equals("A")) {
                 return false;
             } else {
                     grasses.remove(objectAt(position));

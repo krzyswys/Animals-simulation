@@ -1,16 +1,14 @@
 package agh.ics.oop;
 
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
-public abstract class AbstractWorldMap implements IWorldMap {
+public abstract class AbstractWorldMap implements IWorldMap, IPositionChangeObserver {
     public IWorldMap map;
-    public List<IMapElement> elements = new LinkedList<>();
-    public List<IMapElement> removedGrass = new LinkedList<>();
     public int noFiled;
     private MapVisualizer visualizer = new MapVisualizer(this);
-
+    public Map<Vector2d, Animal> animals = new HashMap<>();
+    public Map<Vector2d, Grass> removedGrass = new HashMap<>();
+    public Map<Vector2d, Grass> grass = new HashMap<>();
 
     public abstract Vector2d getRightEgde();
 
@@ -21,9 +19,16 @@ public abstract class AbstractWorldMap implements IWorldMap {
     public int bound(int numOfFields) {
         if (numOfFields != 0) {
             noFiled = numOfFields;
-
         }
         return (int) Math.sqrt(10 * noFiled) + 1;
+    }
+
+    @Override
+    public void positionChanged(Vector2d oldPosition, Vector2d newPosition) {
+        Animal man = animals.get(oldPosition);
+        animals.remove(oldPosition);
+        animals.put(newPosition, man);
+
     }
 
     public void addGrass(int numberOfFields) {
@@ -35,44 +40,33 @@ public abstract class AbstractWorldMap implements IWorldMap {
             do {
                 position = new Vector2d(random.nextInt(bound(0)), random.nextInt(bound(0)));
             } while (isOccupied(position));
-            elements.add(new Grass(position));
+            grass.put(position, new Grass(position));
         }
     }
+
     public void removeobjectAt(Vector2d position) {
-        for (IMapElement grass : elements) {
-            if (grass.getPosition().equals(position)) {
-                removedGrass.add(grass);
-                elements.remove(grass);
-                addGrass(1);
-                break;
-            }
-        }
+        removedGrass.put(position, grass.get(position));
+        grass.remove(position);
+        addGrass(1);
     }
+
     public abstract Vector2d[] edges();
+
     public Vector2d[] checkEdges() {
-        Vector2d h = RightcheckEdges();
-        Vector2d hh = LeftcheckEdges();
-        return new Vector2d[]{h,hh};
-    }
-    public Vector2d RightcheckEdges() {
-        Vector2d gp = new Vector2d(0, 0);
-        for (IMapElement g : elements) {
-            Vector2d position = g.getPosition();
+        Vector2d gp = new Vector2d(bound(0), bound(0));
+        Vector2d gpg = new Vector2d(0, 0);
+        for (Vector2d position : animals.keySet()) {
             if (position.upperRight(gp).follows(position)) {
                 gp = position.upperRight(gp);
-            }
-        }return gp;
 
-    }
-    public Vector2d LeftcheckEdges() {
-        Vector2d gp = new Vector2d(0, 0);
-        for (IMapElement g : elements) {
-            Vector2d position = g.getPosition();
-            if (position.lowerLeft(gp).precedes((position))) {
-                gp = position.lowerLeft(gp);
             }
-        }return gp;
+            if (position.lowerLeft(gpg).precedes((position))) {
+                gpg = position.lowerLeft(gpg);
+            }
+        }
+        return new Vector2d[]{gp, gpg};
     }
+
 
     @Override
     public String toString() {
@@ -80,26 +74,19 @@ public abstract class AbstractWorldMap implements IWorldMap {
     }
 
     @Override
-    public IMapElement[] getGrass() {
-        List<IMapElement> grass= new LinkedList<>();
-        for (IMapElement g: elements) {
-            if (g.getType().equals("G")) {
-                grass.add(g);
-            }
-        }
-        return grass.toArray(new IMapElement[0]);
+    public Map<Vector2d, Grass> getGrass() {
+        return grass;
     }
+
     @Override
-    public Grass[] getRemovedGrass() {
-        return removedGrass.toArray(new Grass[0]);
+    public Map<Vector2d, Grass> getRemovedGrass() {
+        return removedGrass;
     }
 
     @Override
     public boolean isOccupied(Vector2d position) {
-        for (IMapElement g: elements) {
-            if (g.getPosition().equals(position)) {
-                return true;
-            }
+        if (animals.containsKey(position) || grass.containsKey(position)) {
+            return true;
         }
         return false;
     }
@@ -108,23 +95,24 @@ public abstract class AbstractWorldMap implements IWorldMap {
     @Override
     public boolean place(Animal animal) {
 
-        if ((this.isOccupied(animal.vector) && (objectAt(animal.vector) instanceof Animal)) || animal.vector.precedes(getLeftEdge()) || animal.vector.follows(getRightEgde())) {
+        if ((this.isOccupied(animal.vector))) {
             return false;
         }
-        elements.add(animal);
+        animal.addObserver(this);
+        animals.put(animal.vector, animal);
         return true;
     }
 
     @Override
-    public Object objectAt(Vector2d position) {
-        for (IMapElement animal : elements) {
-            if (animal.getPosition().equals(position)) {
-                return animal;
-            }
+    public IMapElement objectAt(Vector2d position) {
+        if (animals.containsKey(position)) {
+            return animals.get(position);
+        }
+        if (grass.containsKey(position)) {
+            return grass.get(position);
         }
         return null;
     }
-
 
 
 }

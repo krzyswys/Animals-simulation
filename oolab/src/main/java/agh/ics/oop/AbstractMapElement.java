@@ -8,6 +8,9 @@ public abstract class AbstractMapElement implements IMapElement{
         return position;
     }
 
+    public void positionChanged(Vector2d oldPosition, Vector2d newPosition) {
+    }
+
     @Override
     public boolean isAt(Vector2d position) {
         return this.position.equals(position);

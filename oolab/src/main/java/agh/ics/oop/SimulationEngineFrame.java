@@ -2,15 +2,20 @@ package agh.ics.oop;
 
 import java.awt.*;
 import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
+import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicReference;
-import javax.imageio.ImageIO;
 import javax.swing.Timer;
 import javax.swing.*;
 import javax.swing.border.Border;
+
+import java.awt.Component;
+import java.awt.Graphics2D;
+import java.awt.Graphics;
+import java.awt.RenderingHints;
+import java.awt.geom.AffineTransform;
+import javax.swing.Icon;
 
 import static java.lang.Math.abs;
 
@@ -20,27 +25,32 @@ public class SimulationEngineFrame implements IEngine {
     Timer timer;
     boolean hasmoved = true;
     public MoveDirection[] directions;
-    public IWorldMap map;
+    public AbstractWorldMap map;
     public Vector2d[] positions;
     private final LinkedList<Animal> animals = new LinkedList<>();
 
     private int jj = 0;
     private int x = 0;
     static JButton[][] button;
-    public IMapElement[] grass;
-    public Grass[] removedGrass;
-    private ImageIcon[] colors;
+public Map<Vector2d, Grass> grass = new HashMap<>();
+
+    public Map<Vector2d, Grass> removedGrass = new HashMap<>();
+
+    private Icon[] colors;
     public boolean wasThisGrass[][];
     JFrame frame = new JFrame("");
 
-    public SimulationEngineFrame(MoveDirection[] directions, IWorldMap mapa, Vector2d[] pos) {
+
+    public SimulationEngineFrame(MoveDirection[] directions, AbstractWorldMap mapa, Vector2d[] pos) {
         this.directions = directions;
         this.map = mapa;
         this.positions = pos;
 
-        colors = new ImageIcon[positions.length];
+
+        colors = new Icon[positions.length];
         for (int c = 0; c < positions.length; c++) {
-            colors[c] = Icons.RANDOM.getRandomIcon();
+            Icon t1 = Icons.RANDOM.getRandomAnimalIcon();
+            colors[c] =  new RotatedIcon(t1, 0);
         }
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
@@ -66,10 +76,11 @@ public class SimulationEngineFrame implements IEngine {
         Border emptyBorder = BorderFactory.createEmptyBorder();
 
         int numOfAnimals = positions.length;
-
+//        b f f b b f f f f f f f f f f b l f f b b l b f f f r r r r l l l r f f f b b f f b l f b r f r f f f f r l f b l f f f b b l f r f f l l f r b f f f b r r f l l b f b l l b f b b f r f r l r b l r r b  f  f  b  b  f  f  f  f  f  f  f  f  f  f  b  l  f  f  b  b  l  b  f  f  f  r  r  r  r  l  l  l  r  f  f  f  b  b  f  f  b  l  f  b  r  f  r  f  f  f  f  r  l  f  b  l  f  f  f  b  b  l  f  r  f  f  l  l  f  r  b  f  f  f  b  r  r  f  l  l  b  f  b  l  l  b  f  b  b  f  r  f  r  l  r  b  l  r  r b f f b b f f f f f f f f f f b l f f b b l b f f f r r r r l l l r f f f b b f f b l f b r f r f f f f r l f b l f f f b b l f r f f l l f r b f f f b r r f l l b f b l l b f b b f r f r l r b l r r b  f  f  b  b  f  f  f  f  f  f  f  f  f  f  b  l  f  f  b  b  l  b  f  f  f  r  r  r  r  l  l  l  r  f  f  f  b  b  f  f  b  l  f  b  r  f  r  f  f  f  f  r  l  f  b  l  f  f  f  b  b  l  f  r  f  f  l  l  f  r  b  f  f  f  b  r  r  f  l  l  b  f  b  l  l  b  f  b  b  f  r  f  r  l  r  b  l  r  r
         JPanel okno = new JPanel(new GridLayout(size.y + 3, size.x + 3, 0, 0));
         button = new JButton[size.y + 4][size.x + 4];
         wasThisGrass = new boolean[size.y+4][size.x+4];
+
 
 
         okno.setMaximumSize(new Dimension(1080, 720));
@@ -116,21 +127,20 @@ public class SimulationEngineFrame implements IEngine {
             }
         }
         if (refresh){
-            for (Grass d : removedGrass) {
+            for (Grass d : removedGrass.values()) {
                 Vector2d positiond = d.getPosition();
                 wasThisGrass[size.y - positiond.y + 1 + left.y][positiond.x + 2- left.x]=true;
                 button[size.y - positiond.y + 1 + left.y][positiond.x + 2- left.x].setIcon(Icons.DIRT.getIcon());
             }
-            for (int i = 0; i < grass.length; i++) {
-                wasThisGrass[size.y - grass[i].getPosition().y + 1 + left.y][grass[i].getPosition().x + 2- left.x]=true;
-                button[size.y - grass[i].getPosition().y + 1 + left.y][grass[i].getPosition().x + 2- left.x].setIcon(Icons.GRASS.getIcon());
+            for (IMapElement iMapElement : grass.values()) {
+                wasThisGrass[size.y - iMapElement.getPosition().y + 1 + left.y][iMapElement.getPosition().x + 2 - left.x] = true;
+                button[size.y - iMapElement.getPosition().y + 1 + left.y][iMapElement.getPosition().x + 2 - left.x].setIcon(Icons.GRASS.getIcon());
             }
             int iterato = 0;
             for (Animal d : animals) {
                 Vector2d positiond = d.getPosition();
                 button[size.y - positiond.y + 1 + left.y][positiond.x + 2- left.x].setIcon(null);
                 button[size.y - positiond.y + 1 + left.y][positiond.x + 2- left.x].setIcon(colors[iterato]);
-                button[size.y - positiond.y + 1 + left.y][positiond.x + 2- left.x].setText(d.toString());
                 iterato++;
             }
 
@@ -141,7 +151,6 @@ public class SimulationEngineFrame implements IEngine {
 
                 animals.add(man);
                 button[size.y - positions[i].y + 1+ left.y][positions[i].x + 2- left.x].setIcon(colors[i]);
-                button[size.y - positions[i].y + 1+ left.y][positions[i].x + 2- left.x].setText(man.toString());
             }
         }
         return okno;
@@ -182,7 +191,6 @@ public class SimulationEngineFrame implements IEngine {
             Vector2d state2 = man.getPosition();
 
          if (wasThisGrass[size.y - state.y + 1+ left.y][state.x + 2- left.x]==true){
-             wasThisGrass[size.y - state.y + 1+ left.y][state.x + 2- left.x]=false;
              button[size.y - state.y + 1+ left.y][state.x + 2- left.x].setIcon(Icons.DIRT.getIcon());
          }
          else {
@@ -190,8 +198,11 @@ public class SimulationEngineFrame implements IEngine {
          }
             button[size.y - state.y + 1+ left.y][state.x + 2- left.x].setText("");
             button[size.y - state2.y + 1+ left.y][state2.x + 2- left.x].setIcon(null);
+            switch (o){
+                case LEFT -> colors[jj]=new RotatedIcon(colors[jj],-90.0);
+                case RIGHT -> colors[jj] = new RotatedIcon(colors[jj],90.0);
+            }
             button[size.y - state2.y + 1+ left.y][state2.x + 2- left.x].setIcon(colors[jj]);
-            button[size.y - state2.y + 1+ left.y][state2.x + 2- left.x].setText(man.toString());
             okno.get().setVisible(true);
             jj++;
             x++;
