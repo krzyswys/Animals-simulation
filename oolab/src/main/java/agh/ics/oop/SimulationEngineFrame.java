@@ -49,8 +49,7 @@ public Map<Vector2d, Grass> grass = new HashMap<>();
 
         colors = new Icon[positions.length];
         for (int c = 0; c < positions.length; c++) {
-            Icon t1 = Icons.RANDOM.getRandomAnimalIcon();
-            colors[c] =  new RotatedIcon(t1, 0);
+            colors[c] =  new RotatedIcon(Icons.RANDOM.getRandomAnimalIcon(), 0);
         }
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
@@ -199,7 +198,7 @@ public Map<Vector2d, Grass> grass = new HashMap<>();
             button[size.y - state.y + 1+ left.y][state.x + 2- left.x].setText("");
             button[size.y - state2.y + 1+ left.y][state2.x + 2- left.x].setIcon(null);
             switch (o){
-                case LEFT -> colors[jj]=new RotatedIcon(colors[jj],-90.0);
+                case LEFT -> colors[jj] = new RotatedIcon(colors[jj],-90.0);
                 case RIGHT -> colors[jj] = new RotatedIcon(colors[jj],90.0);
             }
             button[size.y - state2.y + 1+ left.y][state2.x + 2- left.x].setIcon(colors[jj]);
