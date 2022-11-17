@@ -6,7 +6,7 @@ import java.awt.Graphics;
 import java.awt.RenderingHints;
 import java.awt.geom.AffineTransform;
 import javax.swing.Icon;
-
+//SOURCE: http://www.camick.com/java/source/RotatedIcon.java
 /**
  *  The RotatedIcon allows you to change the orientation of an Icon by
  *  rotating the Icon before it is painted. This class supports the following
