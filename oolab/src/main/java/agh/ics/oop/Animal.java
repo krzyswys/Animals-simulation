@@ -66,9 +66,7 @@ public class Animal extends AbstractMapElement {
                 int objy = obj.y;
                 Vector2d goTo = new Vector2d(this.vector.x + objx, this.vector.y + objy);
                 if (map.canMoveTo(goTo)) {
-                    this.map.positionChanged(this.vector, goTo);
                     this.vector = goTo;
-                    positionChanged(this.vector);
                 }
             }
         } else if (direction == MoveDirection.BACKWARD) {
@@ -78,9 +76,8 @@ public class Animal extends AbstractMapElement {
                 int objy = obj.y;
                 Vector2d goTo = new Vector2d(this.vector.x - objx, this.vector.y - objy);
                 if (map.canMoveTo(goTo)) {
-                    this.map.positionChanged(this.vector, goTo);
+                    positionChanged(this.vector, goTo);
                     this.vector = goTo;
-
                 }
             }
         }
@@ -95,10 +92,10 @@ public class Animal extends AbstractMapElement {
         observers.remove(observer);
     }
 
-    public void positionChanged(Vector2d oldPosition) {
+    public void positionChanged(Vector2d oldPosition, Vector2d newpos) {
         {
             for (var observer : observers) {
-                observer.positionChanged(oldPosition, getPosition());
+                observer.positionChanged(oldPosition, newpos);
             }
         }
     }

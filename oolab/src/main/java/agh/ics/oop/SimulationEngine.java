@@ -29,7 +29,6 @@ public class SimulationEngine implements IEngine {
             Animal man = new Animal(map, positions[i]);
             animals.add(man);
         }
-
         System.out.println(map.toString());
 
         int j = 0;
