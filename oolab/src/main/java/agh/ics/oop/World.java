@@ -1,20 +1,36 @@
 package agh.ics.oop;
 
+import agh.ics.oop.gui.App;
+import javafx.application.Application;
 
 public class World {
 
     public static void main(String[] array) {
+        System.out.println("system has started\n");
 
-//        b l f f b b f f r f f f f l f f f f r b l f f b b l b f f f r r r r l l l r f f f b b f f b l f b r f r f f f f r l f b l f f f b b l f r f f l l f r b f f f b r r f l l b f b l l b f b b f r f r l r b l r r b f f b b f f f f f f f f f f b l f f b b l b f f f r r r r l l l r f f f b b f f b l f b r f r f f f f r l f b l f f f b b l f r f f l l f r b f f f b r r f l l b f b l l b f b b f r f r l r b l r r b f f b b f f f f f f f f f f b l f f b b l b f f f r r r r l l l r f f f b b f f b l f b r f r f f f f r l f b l f f f b b l f r f f l l f r b f f f b r r f l l b f b l l b f b b f r f r l r b l r r b f f b b f f f f f f f f f f b l f f b b l b f f f r r r r l l l r f f f b b f f b l f b r f r f f f f r l f b l f f f b b l f r f f l l f r b f f f b r r f l l b f b l l b f b b f r f r l r b l r r
+        Application.launch(App.class, array);
 
-        MoveDirection[] directions = OptionsParser.parse(array);
-//       IWorldMap map = new RectangularMap(12, 16);
-        AbstractWorldMap map = new GrassField(20);
+        System.out.println("\nsystem has stopped");
 
-        Vector2d[] positions = {new Vector2d(2, 2), new Vector2d(9, 7),new Vector2d(7, 8),new Vector2d(1, 1),new Vector2d(6, 5),new Vector2d(6, 12),new Vector2d(10, 10)};
-//        IEngine engine = new SimulationEngine(directions, map, positions);
-        IEngine engine = new SimulationEngineFrame(directions, map, positions);
-        engine.run();
+//        MoveDirection[] directions = OptionsParser.parse(array);
+////       IWorldMap map = new RectangularMap(12, 16);
+//        AbstractWorldMap map = new GrassField(10);
+//        Vector2d[] positions = {new Vector2d(2, 2),new Vector2d(3, 4)};
+////        IEngine engine = new SimulationEngine(directions, map, positions);
+//        IEngine engine = new SimulationEngineFrame(directions, map, positions);
+////            Application.launch(App.class, array);
+//        engine.run();
 
+        //zamiast sorted set to treeset?
+        //new treeSet<>(Comparator.comparing(Vector2d)::getX())
+        //treesety maja przechowuwac wektory 2D i maj abyc posrotwoane jeden wzłuż osi Xi  drugi w osi Ymin->max
+        //map boundaies zwraca gorne granice i dolne granice
+        //ostani element treeseta i ostatni element i x, tak samo z y
+        //getter i setter do wektorów 2d dal x-ow
+
+        //zwierzakiem bedize label
+        //stworzyc custom label ktora dzidiczy po label ktora nadpisuje jakies rzeczy
+        //gridPane
+        //komponent timeline dla javyFX, event handler
     }
 }

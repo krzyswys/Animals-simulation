@@ -5,6 +5,7 @@ import java.util.*;
 public abstract class AbstractWorldMap implements IWorldMap, IPositionChangeObserver {
     public IWorldMap map;
     public int noFiled;
+    public MapBoundary mapRam = new MapBoundary();
     private MapVisualizer visualizer = new MapVisualizer(this);
     public Map<Vector2d, Animal> animals = new HashMap<>();
     public Map<Vector2d, Grass> removedGrass = new HashMap<>();
@@ -27,7 +28,9 @@ public abstract class AbstractWorldMap implements IWorldMap, IPositionChangeObse
     public void positionChanged(Vector2d oldPosition, Vector2d newPosition) {
         Animal man = animals.get(oldPosition);
         animals.remove(oldPosition);
+        mapRam.removeElement(oldPosition);
         animals.put(newPosition, man);
+        mapRam.addElement(newPosition);
 
     }
 
@@ -41,29 +44,22 @@ public abstract class AbstractWorldMap implements IWorldMap, IPositionChangeObse
                 position = new Vector2d(random.nextInt(bound(0)), random.nextInt(bound(0)));
             } while (isOccupied(position));
             grass.put(position, new Grass(position));
+            mapRam.addElement(position);
         }
     }
 
     public void removeobjectAt(Vector2d position) {
         removedGrass.put(position, grass.get(position));
         grass.remove(position);
+        mapRam.removeElement(position);
         addGrass(1);
     }
 
     public abstract Vector2d[] edges();
 
     public Vector2d[] checkEdges() {
-        Vector2d gp = new Vector2d(bound(0), bound(0));
-        Vector2d gpg = new Vector2d(0, 0);
-        for (Vector2d position : animals.keySet()) {
-            if (position.upperRight(gp).follows(position)) {
-                gp = position.upperRight(gp);
-
-            }
-            if (position.lowerLeft(gpg).precedes((position))) {
-                gpg = position.lowerLeft(gpg);
-            }
-        }
+        Vector2d gp = new Vector2d(mapRam.getLastXPosition(), mapRam.getLastYPosition());
+        Vector2d gpg = new Vector2d(mapRam.getFirstXPosition(), mapRam.getFirstYPosition());
         return new Vector2d[]{gp, gpg};
     }
 
@@ -74,13 +70,18 @@ public abstract class AbstractWorldMap implements IWorldMap, IPositionChangeObse
     }
 
     @Override
-    public Map<Vector2d, Grass> getGrass() {
-        return grass;
+    public Grass[] getGrass() {
+        return grass.values().toArray(new Grass[0]);
+    }
+    @Override
+    public Animal[] getAnimals() {
+        System.out.println(animals.size());
+        return animals.values().toArray(new Animal[0]);
     }
 
     @Override
-    public Map<Vector2d, Grass> getRemovedGrass() {
-        return removedGrass;
+    public Grass[] getRemovedGrass() {
+        return removedGrass.values().toArray(new Grass[0]);
     }
 
     @Override
@@ -96,11 +97,15 @@ public abstract class AbstractWorldMap implements IWorldMap, IPositionChangeObse
     public boolean place(Animal animal) {
 
         if ((this.isOccupied(animal.vector))) {
-            return false;
+//            return false;
+            throw new IllegalArgumentException("Błędne pole przy stawianiu animala: "+animal.vector.toString());
         }
-        animal.addObserver(this);
-        animals.put(animal.vector, animal);
-        return true;
+            animal.addObserver(this);
+            animals.put(animal.vector, animal);
+            mapRam.addElement(animal.vector);
+            return true;
+
+
     }
 
     @Override

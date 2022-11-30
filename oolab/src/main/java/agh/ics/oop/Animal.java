@@ -11,16 +11,16 @@ public class Animal extends AbstractMapElement {
 
     public Animal(AbstractWorldMap map) {
         this.map = map;
-
-        map.place(this);
+//
+//        map.place(this);
     }
 
     public Animal(AbstractWorldMap map, Vector2d initialPosition) {
-        if (map.canMoveTo(initialPosition)) {
+//        if (map.canMoveTo(initialPosition)) {
             this.vector = initialPosition;
             this.map = map;
-            map.place(this);
-        }
+//            map.place(this);
+//        }
 
     }
 
@@ -66,6 +66,7 @@ public class Animal extends AbstractMapElement {
                 int objy = obj.y;
                 Vector2d goTo = new Vector2d(this.vector.x + objx, this.vector.y + objy);
                 if (map.canMoveTo(goTo)) {
+                    map.positionChanged(this.vector,goTo);
                     this.vector = goTo;
                 }
             }
@@ -76,8 +77,9 @@ public class Animal extends AbstractMapElement {
                 int objy = obj.y;
                 Vector2d goTo = new Vector2d(this.vector.x - objx, this.vector.y - objy);
                 if (map.canMoveTo(goTo)) {
-                    positionChanged(this.vector, goTo);
+                    map.positionChanged(this.vector,goTo);
                     this.vector = goTo;
+
                 }
             }
         }

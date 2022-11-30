@@ -13,13 +13,15 @@ public class OptionsParser {
     }
 
     public static MoveDirection toEnum(String value) {
-        return switch (value) {
-            case "f", "forward" -> MoveDirection.FORWARD;
-            case "b", "backward" -> MoveDirection.BACKWARD;
-            case "r", "right" -> MoveDirection.RIGHT;
-            case "l", "left" -> MoveDirection.LEFT;
-            default -> MoveDirection.NULL;
+        MoveDirection move = null;
+             return switch (value) {
+            case "f", "forward" -> move = MoveDirection.FORWARD;
+            case "b", "backward" -> move = MoveDirection.BACKWARD;
+            case "r", "right" -> move = MoveDirection.RIGHT;
+            case "l", "left" -> move = MoveDirection.LEFT;
+            default -> throw new IllegalArgumentException(value + " is not legal move specification");
         };
+
     }
 }
 
