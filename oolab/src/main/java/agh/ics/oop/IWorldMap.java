@@ -55,8 +55,10 @@ public interface IWorldMap {
     Object objectAt(Vector2d position);
 
 
-    Map<Vector2d, Grass> getRemovedGrass();
-    Map<Vector2d, Grass> getGrass();
+    Animal[] getAnimals();
+
+    Grass[] getRemovedGrass();
+    Grass[] getGrass();
     Vector2d getRightEgde();
     Vector2d getLeftEdge();
     Vector2d[] edges();

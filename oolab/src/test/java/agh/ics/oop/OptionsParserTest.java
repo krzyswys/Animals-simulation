@@ -40,7 +40,7 @@ class OptionsParserTest {
     static void sparseUpperFull() {
         String[] array = new String[]{"RIGHT", "LEFT", "BACKWARD", "FORWARD"};
         MoveDirection[] dir = new MoveDirection[]{MoveDirection.RIGHT, MoveDirection.LEFT, MoveDirection.BACKWARD, MoveDirection.FORWARD};
-        assertNotEquals(Arrays.toString(dir), Arrays.toString(OptionsParser.parse(array)));
+        assertThrows(IllegalArgumentException.class, ()->Arrays.toString(OptionsParser.parse(array)));
     }
 
     @Test
@@ -51,7 +51,7 @@ class OptionsParserTest {
     static void sparseUpperShort() {
         String[] array = new String[]{"R", "L", "B", "F"};
         MoveDirection[] dir = new MoveDirection[]{MoveDirection.RIGHT, MoveDirection.LEFT, MoveDirection.BACKWARD, MoveDirection.FORWARD};
-        assertNotEquals(Arrays.toString(dir), Arrays.toString(OptionsParser.parse(array)));
+        assertThrows(IllegalArgumentException.class, ()->Arrays.toString(OptionsParser.parse(array)));
 
     }
 
@@ -68,7 +68,7 @@ class OptionsParserTest {
                 MoveDirection.RIGHT,
                 MoveDirection.FORWARD,
                 MoveDirection.FORWARD};
-        assertEquals(Arrays.toString(dir), Arrays.toString(OptionsParser.parse(array)));
+        assertThrows(IllegalArgumentException.class, ()->Arrays.toString(OptionsParser.parse(array)));
 
     }
 
@@ -80,7 +80,7 @@ class OptionsParserTest {
     static void sparseNoneMix() {
         String[] array = new String[]{"rigsht", "L", "backwaards", "string", "rigfht", "af", "fs", "asdasd", "null"};
         MoveDirection[] dir = new MoveDirection[]{};
-        assertEquals(Arrays.toString(dir), Arrays.toString(OptionsParser.parse(array)));
+        assertThrows(IllegalArgumentException.class, ()->Arrays.toString(OptionsParser.parse(array)));
 
     }
 

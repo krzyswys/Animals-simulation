@@ -26,7 +26,6 @@ class AnimalTest {
         assertNotEquals("(2,1,NORTH)",new Animal(new RectangularMap(4, 4)).toStringWhole());
     }
 
-//new Animal(new RectangularMap(4, 4), new Vector2d(2,1))
     @Test
     @Order(3)
     void testMoveEgde() {

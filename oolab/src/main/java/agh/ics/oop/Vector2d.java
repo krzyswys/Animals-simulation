@@ -57,6 +57,12 @@ public class Vector2d {
         int valy = (-1) * this.y;
         return new Vector2d(valx, valy);
     }
+    int getX(){
+        return this.x;
+    }
+    int getY(){
+        return this.y;
+    }
 
     @Override
     public boolean equals(Object other) {

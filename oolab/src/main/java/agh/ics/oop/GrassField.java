@@ -1,17 +1,11 @@
 package agh.ics.oop;
 
 
-import java.util.LinkedList;
-import java.util.List;
-
 public class GrassField extends AbstractWorldMap {
-    public List<Grass> grasses;
     public IWorldMap map;
     public int bound;
     public GrassField(int noFields) {
         bound = bound(noFields);
-        addGrass(noFields);
-        this.grasses = new LinkedList<>();
     }
     @Override
     public Vector2d[] edges() {
@@ -42,7 +36,6 @@ public class GrassField extends AbstractWorldMap {
             if ((objectAt(position)).getType().equals("A")) {
                 return false;
             } else {
-                    grasses.remove(objectAt(position));
                     removeobjectAt(position);
                     return true;
                 }
