@@ -14,7 +14,9 @@ public class Animal extends AbstractMapElement {
 //
 //        map.place(this);
     }
-
+    public MapDirection getOrientation(){
+        return this.orientation;
+    }
     public Animal(AbstractWorldMap map, Vector2d initialPosition) {
 //        if (map.canMoveTo(initialPosition)) {
             this.vector = initialPosition;
@@ -22,6 +24,11 @@ public class Animal extends AbstractMapElement {
 //            map.place(this);
 //        }
 
+    }
+
+    @Override
+    public String getImageUrl() {
+        return null;
     }
 
     public Vector2d getPosition() {

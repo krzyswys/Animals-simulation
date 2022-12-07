@@ -12,12 +12,13 @@ public class MapBoundary implements IPositionChangeObserver {
 
     }
     public void addElement(Vector2d vect){
+
         xAxis.add(vect);
         yAxis.add(vect);
     }
     public void removeElement(Vector2d vect){
-//        xAxis.remove(vect);
-//        yAxis.remove(vect);
+        xAxis.remove(vect);
+        yAxis.remove(vect);
     }
     @Override
     public void positionChanged(Vector2d oldPosition, Vector2d newPosition) {
