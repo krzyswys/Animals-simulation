@@ -23,15 +23,21 @@ public abstract class AbstractWorldMap implements IWorldMap, IPositionChangeObse
         }
         return (int) Math.sqrt(10 * noFiled) + 1;
     }
-
+    public boolean moveAnimal(Animal animal, MoveDirection o) {
+        Vector2d old = animal.getPosition();
+        animal.move(o);
+        positionChanged(old, animal.getPosition());
+        if(o.equals(MoveDirection.BACKWARD) || o.equals(MoveDirection.FORWARD)){
+            return true;
+        }return false;
+    }
     @Override
     public void positionChanged(Vector2d oldPosition, Vector2d newPosition) {
+
         Animal man = animals.get(oldPosition);
         animals.remove(oldPosition);
-        mapRam.removeElement(oldPosition);
         animals.put(newPosition, man);
-        mapRam.addElement(newPosition);
-
+        mapRam.positionChanged(oldPosition, newPosition);
     }
 
     public void addGrass(int numberOfFields) {
@@ -44,6 +50,7 @@ public abstract class AbstractWorldMap implements IWorldMap, IPositionChangeObse
                 position = new Vector2d(random.nextInt(bound(0)), random.nextInt(bound(0)));
             } while (isOccupied(position));
             grass.put(position, new Grass(position));
+
             mapRam.addElement(position);
         }
     }

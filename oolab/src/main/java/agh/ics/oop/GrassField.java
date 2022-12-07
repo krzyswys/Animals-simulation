@@ -21,13 +21,7 @@ public class GrassField extends AbstractWorldMap {
     public Vector2d getLeftEdge() {
         return checkEdges()[1];
     }
-    @Override
-    public boolean moveAnimal(Animal animal, MoveDirection o) {
-        animal.move(o);
-        if(o.equals(MoveDirection.BACKWARD) || o.equals(MoveDirection.FORWARD)){
-            return true;
-        }return false;
-    }
+
 
     @Override
     public boolean canMoveTo(Vector2d position) {
@@ -37,6 +31,7 @@ public class GrassField extends AbstractWorldMap {
                 return false;
             } else {
                     removeobjectAt(position);
+                    System.out.println("REMOVED");
                     return true;
                 }
 
